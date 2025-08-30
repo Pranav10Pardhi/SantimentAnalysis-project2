@@ -1,9 +1,9 @@
 
 ---
 
-## 🚀 Features  
+##  Features  
 
-### 1️⃣ Sentiment Analysis (NLP)  
+### 1️ Sentiment Analysis (NLP)  
 - Uses **TF-IDF Vectorization** + **Support Vector Machine (SVM)**.  
 - Trains on uploaded dataset with `text` and `sentiment` columns.  
 - Preprocessing:  
@@ -15,9 +15,9 @@
   - Display **confidence probabilities**.  
   - Visualization with **bar chart of sentiment probabilities**.
  
-  - # 📝 Sentiment Analysis Module  
+  - #  Sentiment Analysis Module  
 
-## 📌 Introduction  
+##  Introduction  
 The **Sentiment Analysis module** is designed to evaluate customer feedback, social media posts, or reviews and classify them into sentiment categories such as **Positive, Negative, or Neutral**.  
 
 This functionality enables businesses to:  
@@ -27,7 +27,7 @@ This functionality enables businesses to:
 
 ---
 
-## 🔍 How It Works  
+##  How It Works  
 
 ### 1. Data Input  
 - The model expects a CSV file with at least two columns:  
@@ -50,7 +50,7 @@ Raw customer text often contains noise. Before training, we apply **NLP preproce
 - Stopword removal (removing common words like "the", "is", "and").  
 - Converting cleaned tokens back into meaningful strings.  
 
-✔️ Example:  
+✔ Example:  
 Input: "The service was amazing!"
 Prediction: Positive (Confidence: 92%)
 
@@ -68,16 +68,16 @@ When a user inputs new text:
 
 ---
 
-## 📈 Business Value  
+##  Business Value  
 
-- 📊 **Customer Insights**: Provides a quick way to measure satisfaction.  
-- 🛠️ **Decision Support**: Helps managers understand what customers feel about products/services.  
-- 🔍 **Trend Monitoring**: Detects positive or negative spikes in customer sentiment over time.  
-- 🎯 **Targeted Action**: Negative clusters can be addressed faster, positive clusters used for marketing.  
+-  **Customer Insights**: Provides a quick way to measure satisfaction.  
+-  **Decision Support**: Helps managers understand what customers feel about products/services.  
+-  **Trend Monitoring**: Detects positive or negative spikes in customer sentiment over time.  
+-  **Targeted Action**: Negative clusters can be addressed faster, positive clusters used for marketing.  
 
 ---
 
-## ✨ Future Enhancements  
+##  Future Enhancements  
 
 - Integration with **real-time social media APIs** (e.g., Twitter, Reddit).  
 - Use of **deep learning models (BERT, LSTM)** for improved accuracy.  
@@ -86,14 +86,14 @@ When a user inputs new text:
 
 ---
 
-## 🙌 Summary  
+##  Summary  
 
 The **Sentiment Analysis module** transforms raw customer feedback into **actionable insights**. By combining **NLP preprocessing, TF-IDF feature extraction, and SVM classification**, it provides an accurate, explainable, and manager-friendly tool to monitor and respond to customer sentiment effectively.  
 
 
 ---
 
-### 2️⃣ Customer Segmentation  
+### 2️ Customer Segmentation  
 - Upload customer dataset (CSV).  
 - Numerical features are standardized using **StandardScaler**.  
 - Clustering performed using **K-Means (k=5)**.  
@@ -104,19 +104,19 @@ The **Sentiment Analysis module** transforms raw customer feedback into **action
 
 ---
 
-### 3️⃣ Sales Dashboard  
+### 3️ Sales Dashboard  
 - Upload sales dataset with `Date, Sales, Orders, ROI`.  
 - Features:  
   - Filter by **custom date range**.  
   - KPIs:  
-    - 💰 Total Sales  
-    - 📦 Average Daily Orders  
-    - 📈 Average ROI  
+    -  Total Sales  
+    -  Average Daily Orders  
+    -  Average ROI  
   - Visualize **sales trend over time** using line chart.  
 
 ---
 
-## ⚙️ Tech Stack  
+##  Tech Stack  
 
 - **Programming Language**: Python  
 - **Framework**: Streamlit  
@@ -130,6 +130,7 @@ The **Sentiment Analysis module** transforms raw customer feedback into **action
 
 ---
 
-## 📂 Project Structure  
+## Project Structure  
+
 
 
