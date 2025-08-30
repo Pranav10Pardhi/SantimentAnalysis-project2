@@ -26,15 +26,25 @@ class IntegratedAnalytics:
     def __init__(self):
         self.sentiment_model = None
         self.vectorizer = TfidfVectorizer(max_features=5000)
-        self.kmeans = KMeans(n_clusters=5, random_state=42)
+        self.kmeans = KMeans(n_clusters=5, random_state=42, n_init=10)
         self.scaler = StandardScaler()
+        self.label_mapping = {}   # ⚡ map labels to numbers
+        self.reverse_mapping = {} # ⚡ map numbers back to labels
         
     def train_sentiment_model(self, texts, labels):
         if not texts.empty and not labels.empty:
             processed_texts = [self.preprocess_text(text) for text in texts]
+            
+            # ⚡ Normalize labels to numeric form (handles Positive/Negative/Neutral strings)
+            unique_labels = sorted(labels.unique())
+            self.label_mapping = {label: idx for idx, label in enumerate(unique_labels)}
+            self.reverse_mapping = {idx: label for label, idx in self.label_mapping.items()}
+            
+            y = labels.map(self.label_mapping)
+            
             X = self.vectorizer.fit_transform(processed_texts)
-            self.sentiment_model = SVC(kernel='linear')
-            self.sentiment_model.fit(X, labels)
+            self.sentiment_model = SVC(kernel='linear', probability=True)  # ⚡ probability=True
+            self.sentiment_model.fit(X, y)
             return True
         return False
         
@@ -44,7 +54,7 @@ class IntegratedAnalytics:
         text = str(text).lower()
         tokens = word_tokenize(text)
         stop_words = set(stopwords.words('english'))
-        tokens = [t for t in tokens if t not in stop_words]
+        tokens = [t for t in tokens if t.isalpha() and t not in stop_words]
         return ' '.join(tokens)
     
     def predict_sentiment(self, text):
@@ -52,12 +62,10 @@ class IntegratedAnalytics:
             return None
         processed_text = self.preprocess_text(text)
         X = self.vectorizer.transform([processed_text])
-        return self.sentiment_model.predict(X)[0]
-    
-    def segment_customers(self, data):
-        numeric_cols = data.select_dtypes(include=[np.number]).columns
-        scaled_data = self.scaler.fit_transform(data[numeric_cols])
-        return self.kmeans.fit_predict(scaled_data)
+        
+        pred_label = self.sentiment_model.predict(X)[0]
+        return self.reverse_mapping[pred_label]  # ⚡ return human-readable label
+
 
 def main():
     st.set_page_config(layout="wide")
@@ -69,26 +77,30 @@ def main():
                                ["Sentiment Analysis", "Customer Segmentation", "Sales Dashboard"])
     
     if page == "Sentiment Analysis":
-        st.header("Social Media Sentiment Analysis")
-        
-        uploaded_file = st.file_uploader("Upload training data (CSV with 'text' and 'sentiment' columns)")
-        
-        if uploaded_file:
-            try:
-                data = pd.read_csv(uploaded_file)
-                if 'text' in data.columns and 'sentiment' in data.columns:
-                    if analytics.train_sentiment_model(data['text'], data['sentiment']):
-                        st.success("Model trained successfully!")
+    st.header("Social Media Sentiment Analysis")
+    
+    uploaded_file = st.file_uploader("Upload training data (CSV with 'text' and 'sentiment' columns)")
+    
+    if uploaded_file:
+        try:
+            data = pd.read_csv(uploaded_file)
+            if 'text' in data.columns and 'sentiment' in data.columns:
+                if analytics.train_sentiment_model(data['text'], data['sentiment']):
+                    st.success(f"✅ Model trained successfully on {len(data)} samples!")
+                    st.write(f"Detected Sentiment Classes: {list(analytics.label_mapping.keys())}")
                 else:
-                    st.error("CSV must contain 'text' and 'sentiment' columns")
-            except Exception as e:
-                st.error(f"Error processing file: {str(e)}")
-        
-        user_text = st.text_area("Enter text for sentiment analysis:")
-        if user_text and analytics.sentiment_model is not None:
-            sentiment = analytics.predict_sentiment(user_text)
-            if sentiment is not None:
-                st.write(f"Predicted Sentiment: {'Positive' if sentiment == 1 else 'Negative'}")
+                    st.error("Training failed. Check your data.")
+            else:
+                st.error("CSV must contain 'text' and 'sentiment' columns")
+        except Exception as e:
+            st.error(f"Error processing file: {str(e)}")
+    
+    user_text = st.text_area("Enter text for sentiment analysis:")
+    if user_text and analytics.sentiment_model is not None:
+        sentiment = analytics.predict_sentiment(user_text)
+        if sentiment is not None:
+            st.write(f"Predicted Sentiment: **{sentiment}**")
+
     
     elif page == "Customer Segmentation":
         st.header("Customer Segmentation Analysis")
