@@ -11,7 +11,6 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 # Download necessary NLTK resources
 import nltk
-
 for resource, path in [
     ("punkt", "tokenizers/punkt"),
     ("punkt_tab", "tokenizers/punkt_tab"),
