@@ -9,17 +9,19 @@ from sklearn.preprocessing import StandardScaler
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+# Download necessary NLTK resources
+import nltk
 
-# Add this at the beginning of your file
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt')
-    
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords')
+for resource, path in [
+    ("punkt", "tokenizers/punkt"),
+    ("punkt_tab", "tokenizers/punkt_tab"),
+    ("stopwords", "corpora/stopwords")
+]:
+    try:
+        nltk.data.find(path)
+    except LookupError:
+        nltk.download(resource)
+
 
 class IntegratedAnalytics:
     def __init__(self):
