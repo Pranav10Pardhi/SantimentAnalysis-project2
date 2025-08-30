@@ -9,18 +9,17 @@ from sklearn.preprocessing import StandardScaler
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
-import ssl
 
-# Fix SSL certificate verification issues
+# Add this at the beginning of your file
 try:
-    _create_unverified_https_context = ssl._create_unverified_context
-except AttributeError:
-    pass
-
-# Download required NLTK resources
-nltk.download('punkt', quiet=True)
-nltk.download('stopwords', quiet=True)
-nltk.download('averaged_perceptron_tagger', quiet=True)
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+    
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
 
 class IntegratedAnalytics:
     def __init__(self):
