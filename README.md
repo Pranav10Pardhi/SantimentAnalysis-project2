@@ -4,8 +4,6 @@
 ##  Features  
 
 ### 1️ Sentiment Analysis (NLP)  
-- Uses **TF-IDF Vectorization** + **Support Vector Machine (SVM)**.  
-- Trains on uploaded dataset with `text` and `sentiment` columns.  
 - Preprocessing:  
   - Lowercasing  
   - Tokenization (NLTK)  
@@ -131,6 +129,7 @@ The **Sentiment Analysis module** transforms raw customer feedback into **action
 ---
 
 ## Project Structure  
+
 
 
 
